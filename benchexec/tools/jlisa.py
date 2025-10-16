@@ -1,3 +1,10 @@
+# This file is part of BenchExec, a framework for reliable benchmarking:
+# https://github.com/sosy-lab/benchexec
+#
+# SPDX-FileCopyrightText: 2025 UniVE-SSV
+#
+# SPDX-License-Identifier: Apache-2.0
+
 import benchexec.util as util
 import benchexec.tools.template
 import benchexec.result as result
