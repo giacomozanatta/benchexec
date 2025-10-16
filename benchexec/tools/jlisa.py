@@ -27,7 +27,7 @@ class Tool(benchexec.tools.template.BaseTool2):
         return "https://github.com/lisa-analyzer/jlisa"
 
     def cmdline(self, executable, options, task, rlimits):
-        cmd = [executable, "check", "--inputs", " ".join(task.input_files_or_empty)]
+        cmd = [executable, "check", "--inputs", " ".join(task.input_files)]
         if task.property_file:
             cmd += ["--property", task.property_file]
         return cmd
