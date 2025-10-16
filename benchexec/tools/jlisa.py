@@ -1,15 +1,6 @@
-# This file is part of BenchExec, a framework for reliable benchmarking:
-# https://github.com/sosy-lab/benchexec
-#
-# SPDX-FileCopyrightText: 2025 UniVE-SSV
-#
-# SPDX-License-Identifier: Apache-2.0
-
-import benchexec.util as util
 import benchexec.tools.template
 import benchexec.result as result
 
-import sys
 
 class Tool(benchexec.tools.template.BaseTool2):
     """
@@ -18,7 +9,7 @@ class Tool(benchexec.tools.template.BaseTool2):
 
     def executable(self, tool_locator):
         return tool_locator.find_executable("jlisa")
-    
+
     def version(self, executable):
         return self._version_from_tool(executable, arg="version")
 
@@ -35,7 +26,7 @@ class Tool(benchexec.tools.template.BaseTool2):
         return cmd
 
     def determine_result(self, run):
-        try:
+        if len(run.output) > 0:
             jlisa_output = run.output[-1]
             ### ASSERT ###
             if jlisa_output == "ASSERT HOLDS FOR SOME CASES BUT NOT FOR OTHERS":
@@ -50,7 +41,7 @@ class Tool(benchexec.tools.template.BaseTool2):
                 return result.RESULT_UNKNOWN
 
             ### RUNTIME ###
-            if jlisa_output == "RUNTIME HOLDS FOR SOME CASES BUT NOT FOR OTHERS": 
+            if jlisa_output == "RUNTIME HOLDS FOR SOME CASES BUT NOT FOR OTHERS":
                 return result.RESULT_UNKNOWN
             if jlisa_output == "RUNTIME DOES HOLD":
                 return result.RESULT_TRUE_PROP
@@ -60,8 +51,6 @@ class Tool(benchexec.tools.template.BaseTool2):
                 return result.RESULT_UNKNOWN
             if jlisa_output == "NO RUNTIME WARNING":
                 return result.RESULT_TRUE_PROP
-            
-            # UNKNOWN otherwise.
-            return result.RESULT_UNKNOWN
-        except:
-            return result.RESULT_UNKNOWN
+
+        # UNKNOWN otherwise.
+        return result.RESULT_UNKNOWN
